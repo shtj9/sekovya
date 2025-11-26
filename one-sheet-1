@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="document_title">Sekvoya - Showcase Festival Presentation</title>
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom font import - Inter for general text */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        /* Custom Accent Color: Earthy Gold/Ochre for Psychedelic Vibe */
+        :root {
+            --color-accent: #D4AF37; /* Goldenrod */
+            --color-dark-bg: #1A1A1A; /* Deep Charcoal */
+            --color-text: #EAEAEA; /* Light Gray/Off-White */
+            --color-darker-bg: #111111; /* Even Darker Background */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Deep, dark, mystical background: Radial gradient for depth */
+            background: radial-gradient(circle at 50% 50%, #1A111A 0%, #351A35 70%, #1A111A 100%);
+            color: var(--color-text);
+            position: relative;
+            z-index: 0;
+            overflow-x: hidden;
+            text-align: justify;
+        }
+
+        /* Subtle noise overlay (kept from previous version but adjusted opacity) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.05) 0%,
+                rgba(0, 0, 0, 0.05) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            background-size: 4px 4px;
+            opacity: 0.05; /* Even more subtle for a cleaner psych look */
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Style for headings */
+        h2 {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background-color: var(--color-accent); /* Underline in accent color */
+            border-radius: 9999px;
+        }
+        /* Style for buttons/links */
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-darker-bg); /* Dark text on bright button */
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        .btn-primary:hover {
+            background-color: #B8860B; /* Darker Gold on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        /* Style for press quotes */
+        .quote-box {
+            background-color: var(--color-darker-bg);
+            border-left: 5px solid var(--color-accent);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        .quote-source {
+            text-align: right;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-top: 0.5rem;
+        }
+        /* Lineup list styling */
+        .lineup-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .lineup-list li {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+        /* Language switcher styles */
+        .lang-switcher button {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-text);
+            border: 1px solid var(--color-accent);
+        }
+        .lang-switcher button.active {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-darker-bg);
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+        }
+        /* --- Video Centering Styles --- */
+        .video-thumbnail-container {
+            display: block;
+            position: relative;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+        .video-thumbnail-container:hover {
+            transform: scale(1.03);
+        }
+        .video-thumbnail-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0.5rem;
+            transition: opacity 0.3s ease;
+        }
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.5rem; /* Larger icon */
+            color: var(--color-accent);
+            opacity: 0.9;
+            transition: opacity 0.3s ease, color 0.3s ease;
+            z-index: 10;
+        }
+        .video-thumbnail-container:hover .play-icon {
+            opacity: 1;
+            color: #ffffff; /* White icon on hover for contrast */
+        }
+        /* -------------------------------- */
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    
+    <!-- Language Switcher - Fixed top-right position -->
+    <div class="lang-switcher fixed top-4 right-4 z-50 flex space-x-2">
+        <button id="lang-en" class="active" onclick="switchLanguage('en')">EN</button>
+        <button id="lang-sr" onclick="switchLanguage('sr')">SR</button>
+    </div>
+
+    <div class="max-w-4xl w-full space-y-12 bg-[--color-dark-bg] p-8 sm:p-10 rounded-lg shadow-2xl border border-gray-700">
+        
+        <!-- Main Presentation Introduction --><div class="text-center">
+            <h1 class="text-6xl sm:text-7xl font-extrabold mb-2" style="font-family: 'Roboto', sans-serif; color: var(--color-accent);">
+                SEKVOYA
+            </h1>
+            <!-- The subtitle text is now effectively removed via the translations object --><p class="text-xl sm:text-2xl font-light text-gray-400 mb-8" data-translate-key="showcase_subtitle"></p>
+
+            <!-- START: Subtly enhanced Summary (text-base retained) -->
+            <!-- Added border-y for subtle separation and font-medium for slight emphasis -->
+            <div class="mt-8 mb-8 mx-auto max-w-3xl border-y border-gray-700 py-4">
+                <p class="text-base leading-relaxed text-[--color-text] font-medium" 
+                   data-translate-key="sekvoya_intro_summary">
+                    Sekvoya is a Novi Sad–based psychedelic/world ensemble blending Eastern melodic traditions with Western groove and arrangement sensibilities. With vintage tones, hypnotic rhythms, and a distinctly Balkan emotional color, Sekvoya creates immersive soundscapes that feel both ancient and forward-looking. Their music sits at the crossroads of Anatolian rock, psychedelic rock, and contemporary world/ethno music.
+                </p>
+            </div>
+            <!-- END: Subtly enhanced Summary -->
+
+            <!-- Main Image/Visual --><img 
+                 src="https://i.imgur.com/JA444we.jpeg"
+                 alt="Sekvoya Band Promotional Visual"
+                 class="mx-auto rounded-lg shadow-xl border-2 border-[--color-accent] w-full mt-10 max-w-lg"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x400/800080/FFFFFF?text=IMAGE+LINK+ISSUE%0APlease+provide+DIRECT+URL';"
+            >
+            
+            <!-- Key Links / Downloads (Updated for Sekvoya) --><div class="text-center mt-8">
+                <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 justify-center items-center">
+                    <!-- Tech Rider Button --><a href="#" class="btn-primary w-full sm:w-auto" data-translate-key="tech_rider_button">
+                        <i class="fas fa-file-pdf mr-2"></i> Tech Rider (Placeholder)
+                    </a>
+                    <!-- Download Photos Button --><a href="#" class="btn-primary w-full sm:w-auto" data-translate-key="download_button">
+                        <i class="fas fa-camera mr-2"></i> Download Photos & Logo (Placeholder)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biography Section --><section>
+            <h2 class="text-3xl text-center sm:text-left" data-translate-key="biography_heading">BIOGRAPHY</h2>
+                <p class="mt-4 text-lg leading-relaxed text-[--color-text]" data-translate-key="biography_paragraph_part1">
+                    Hailing from Novi Sad, Serbia, Sekvoya music transports listeners into a rich sonic journey where traditional Balkan atmospheres meet contemporary psychedelic grooves. Through this blend, Sekvoya offers a renewed perspective on regional melodic heritage, reframing it within expansive, swirling, dream-like soundscapes.
+                </p>
+                <p class="mt-4 text-lg leading-relaxed text-[--color-text]" data-translate-key="biography_paragraph_part2">
+                    The project was born in Soundbubble Studio, where Ivan laid the foundation as the sole creator and producer. His early experiments focused on capturing vintage timbres, psychedelic colors, and swampy, atmospheric textures that transcend typical genre boundaries. As the project grew, Ivan invited like-minded musicians to join the journey, forming a five-piece ensemble that added depth, energy, and new creative layers to the sound. Today, Sekvoya stands as a collective dedicated to exploring cultural roots through a modern, explorative sonic identity.
+                </p>
+        </section>
+
+        <!-- Sound & Influences Section --><section>
+            <h2 class="text-3xl text-center sm:text-left" data-translate-key="sound_influences_heading">SOUND & INFLUENCES</h2>
+                <p class="mt-4 text-lg leading-relaxed text-[--color-text]" data-translate-key="sound_influences_paragraph_part1">
+                    Sekvoya’s rhythm section draws influence from the desert-blues trance of Tinariwen and Mdou Moctar, blended with the laid-back funk of Khruangbin, the raw groove of Karl Hector, and the cinematic global textures of Sven Wunder. Traditional Balkan rhythmic motifs are woven into this hybrid, forming a middle place between Eastern and Western pulse.
+                </p>
+                <p class="mt-4 text-lg leading-relaxed text-[--color-text]" data-translate-key="sound_influences_paragraph_part2">
+                    Melodically, the band draws from Serbian rock icons like Vlatko Stefanovski and Radomir Mihajlović Točak, while also embracing contemporary global psych acts such as Derya Yildirim, Altın Gün, Satellites, and Bab L’Bluz. The result is a vibrant, soulful, and highly textured melodic language that feels both familiar and mystical.
+                </p>
+        </section>
+
+        <!-- Lineup and Genre Section (Stacked) --><section class="space-y-8">
+            <div>
+                <h2 class="text-3xl text-center sm:text-left" data-translate-key="lineup_heading">LINEUP (5-PIECE)</h2>
+                <ul class="lineup-list text-lg mt-4 space-y-2">
+                    <li><strong class="text-[--color-accent]">Ivan Krstić</strong> (Guitar, Synths)</li>
+                    <li><strong class="text-[--color-accent]">Dušan Živanović</strong> (Guitar)</li>
+                    <li><strong class="text-[--color-accent]">Petar Šćepanović</strong> (Bass)</li>
+                    <li><strong class="text-[--color-accent]">Luka Aleksić</strong> (Drums)</li>
+                    <li><strong class="text-[--color-accent]">Aleksandar Marin</strong> (Synths & Percussion)</li>
+                </ul>
+            </div>
+            <div>
+                <h2 class="text-3xl text-center sm:text-left" data-translate-key="genre_heading">GENRE</h2>
+                <ul class="lineup-list text-lg mt-4 space-y-2">
+                    <li><span class="text-[--color-accent]">•</span> Anatolian Rock</li>
+                    <li><span class="text-[--color-accent]">•</span> Balkan Psychedelia</li>
+                    <li><span class="text-[--color-accent]">•</span> Psychedelic Rock</li>
+                    <li><span class="text-[--color-accent]">•</span> World / Ethno Music</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Videos Section (with centered play icons and updated placeholder text) --><section>
+            <h2 class="text-3xl text-center sm:text-left" data-translate-key="watch_listen_heading">LIVE SESSION</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                <!-- Video 1 Placeholder --><a href="https://www.youtube.com/playlist?list=OLAK5uy_nxgPnk_vINRLMXBt2ESv0qX3fZQ0nLB0c" target="_blank" class="video-thumbnail-container">
+                    <img src="https://placehold.co/400x225/351A35/D4AF37?text=PLACEHOLDER+VIDEO" alt="Video Placeholder">
+                    <i class="fas fa-play-circle play-icon"></i>
+                </a>
+                <!-- Video 2 Placeholder --><a href="https://www.youtube.com/playlist?list=OLAK5uy_nxgPnk_vINRLMXBt2ESv0qX3fZQ0nLB0c" target="_blank" class="video-thumbnail-container">
+                    <img src="https://placehold.co/400x225/351A35/D4AF37?text=PLACEHOLDER+VIDEO" alt="Video Placeholder">
+                    <i class="fas fa-play-circle play-icon"></i>
+                </a>
+                <!-- Video 3 Placeholder --><a href="https://www.youtube.com/playlist?list=OLAK5uy_nxgPnk_vINRLMXBt2ESv0qX3fZQ0nLB0c" target="_blank" class="video-thumbnail-container">
+                    <img src="https://placehold.co/400x225/351A35/D4AF37?text=PLACEHOLDER+VIDEO" alt="Video Placeholder">
+                    <i class="fas fa-play-circle play-icon"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Connect Section --><section class="text-center">
+            <h2 class="text-3xl" data-translate-key="connect_heading">CONNECT WITH SEKVOYA</h2>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mt-6">
+                <!-- Social Links -->
+                <a href="https://www.instagram.com/sekvoyaband/" target="_blank" class="btn-primary">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://www.facebook.com/sekvoyaband" target="_blank" class="btn-primary">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+                <a href="https://www.youtube.com/@sekvoyaband" target="_blank" class="btn-primary">
+                    <i class="fab fa-youtube"></i> YouTube
+                </a>
+                <!-- Bandcamp Button Added -->
+                <a href="https://sekvoyaband.bandcamp.com/album/gathering-of-enchanted-herbs-ep" target="_blank" class="btn-primary">
+                    <i class="fab fa-bandcamp"></i> Bandcamp
+                </a>
+            </div>
+        </section>
+
+        <!-- Booking & Contact Section -->
+        <section class="text-center">
+            <h2 class="text-3xl" data-translate-key="booking_inquiries_heading">FOR BOOKING & INQUIRIES</h2>
+            <p class="mt-4 text-lg text-[--color-text]">
+                <span data-translate-key="email_label">Email</span>: <a href="mailto:sekvoyaprojekt@gmail.com" class="text-[--color-accent] hover:underline">sekvoyaprojekt@gmail.com</a>
+            </p>
+        </section>
+
+    </div>
+
+    <script>
+        const translations = {
+            "en": {
+                "document_title": "Sekvoya - Showcase Festival Presentation",
+                // Removed the text from the subtitle
+                "showcase_subtitle": "", 
+                "sekvoya_intro_summary": "Sekvoya is a Novi Sad–based psychedelic/world ensemble blending Eastern melodic traditions with Western groove and arrangement sensibilities. With vintage tones, hypnotic rhythms, and a distinctly Balkan emotional color, Sekvoya creates immersive soundscapes that feel both ancient and forward-looking. Their music sits at the crossroads of Anatolian rock, psychedelic rock, and contemporary world/ethno music.",
+                "biography_heading": "BIOGRAPHY",
+                "biography_paragraph_part1": "Hailing from Novi Sad, Serbia, Sekvoya music transports listeners into a rich sonic journey where traditional Balkan atmospheres meet contemporary psychedelic grooves. Through this blend, Sekvoya offers a renewed perspective on regional melodic heritage, reframing it within expansive, swirling, dream-like soundscapes.",
+                "biography_paragraph_part2": "The project was born in Soundbubble Studio, where Ivan laid the foundation as the sole creator and producer. His early experiments focused on capturing vintage timbres, psychedelic colors, and swampy, atmospheric textures that transcend typical genre boundaries. As the project grew, Ivan invited like-minded musicians to join the journey, forming a five-piece ensemble that added depth, energy, and new creative layers to the sound. Today, Sekvoya stands as a collective dedicated to exploring cultural roots through a modern, explorative sonic identity.",
+                "sound_influences_heading": "SOUND & INFLUENCES",
+                "sound_influences_paragraph_part1": "Sekvoya’s rhythm section draws influence from the desert-blues trance of Tinariwen and Mdou Moctar, blended with the laid-back funk of Khruangbin, the raw groove of Karl Hector, and the cinematic global textures of Sven Wunder. Traditional Balkan rhythmic motifs are woven into this hybrid, forming a middle place between Eastern and Western pulse.",
+                "sound_influences_paragraph_part2": "Melodically, the band draws from Serbian rock icons like Vlatko Stefanovski and Radomir Mihajlović Točak, while also embracing contemporary global psych acts such as Derya Yildirim, Altın Gün, Satellites, and Bab L’Bluz. The result is a vibrant, soulful, and highly textured melodic language that feels both familiar and mystical.",
+                "lineup_heading": "LINEUP (5-PIECE)",
+                "genre_heading": "GENRE",
+                "watch_listen_heading": "LIVE SESSION",
+                "connect_heading": "CONNECT WITH SEKVOYA",
+                "booking_inquiries_heading": "FOR BOOKING & INQUIRIES",
+                "email_label": "Email",
+                "tech_rider_button": "Tech Rider (Placeholder)",
+                "download_button": "Download Photos & Logo (Placeholder)"
+            },
+            "sr": {
+                "document_title": "Sekvoya - Prezentacija za Festivalski Showcase",
+                 // Removed the text from the subtitle
+                "showcase_subtitle": "", 
+                "sekvoya_intro_summary": "Sekvoya je novosadski psihodelični/world ansambl koji spaja istočne melodične tradicije sa zapadnim ritmom i aranžmanima. Sa vintage tonovima, hipnotičkim ritmovima i izrazito balkanskom emocionalnom bojom, Sekvoya stvara impresivne zvučne pejzaže koji deluju istovremeno drevno i okrenuto budućnosti. Njihova muzika se nalazi na raskrsnici anadolskog roka, psihodeličnog roka i savremene world/etno muzike.",
+                "biography_heading": "BIOGRAFIJA",
+                "biography_paragraph_part1": "Poreklom iz Novog Sada, Srbija, muzika Sekvoye prenosi slušaoce na bogato zvučno putovanje gde se tradicionalna balkanska atmosfera susreće sa savremenim psihodeličnim ritmovima. Kroz ovo spajanje, Sekvoya nudi obnovljenu perspektivu na regionalno melodijsko nasleđe, preoblikujući ga u prostrane, vrtložne, sanjive zvučne pejzaže.",
+                "biography_paragraph_part2": "Projekat je rođen u Soundbubble Studiju, gde je Ivan postavio temelj kao jedini kreator i producent. Njegovi rani eksperimenti bili su fokusirani na hvatanje vintage boja, psihodeličnih tonova i močvarnih, atmosferskih tekstura koje nadilaze tipične žanrovske granice. Kao što je projekat rastao, Ivan je pozvao istomišljenike da se pridruže putovanju, formirajući petočlani ansambl koji je zvuku dodao dubinu, energiju i nove kreativne slojeve. Danas, Sekvoya stoji kao kolektiv posvećen istraživanju kulturnih korena kroz moderan, istraživački zvučni identitet.",
+                "sound_influences_heading": "ZVUK I UTICAJI",
+                "sound_influences_paragraph_part1": "Ritam sekcija Sekvoye crpi uticaj iz pustinjskog-bluz transa Tinariwen i Mdou Moctar, pomešanog sa opuštenim funk ritmom Khruangbin, sirovim gruvom Karla Hectora i globalnim filmskim teksturama Svena Wundera. Tradicionalni balkanski ritmički motivi utkani su u ovaj hibrid, formirajući središnji prostor između istočnog i zapadnog pulsa.",
+                "sound_influences_paragraph_part2": "Melodično, bend crpi inspiraciju od srpskih rok ikona poput Vlatka Stefanovskog i Radomira Mihajlovića Točka, dok takođe prihvata savremene globalne psihodelične bendove kao što su Derya Yildirim, Altın Gün, Satellites i Bab L’Bluz. Rezultat je živahan, duševan i bogato teksturiran melodični jezik koji deluje i poznato i mistično.",
+                "lineup_heading": "POSTAVA (5-ČLANA)",
+                "genre_heading": "ŽANR",
+                "watch_listen_heading": "LIVE SESIJA",
+                "connect_heading": "POVEŽITE SE SA SEKVOYA",
+                "booking_inquiries_heading": "ZA BOOKING I UPITE",
+                "email_label": "Mejl",
+                "tech_rider_button": "Tehnička Lista (Mesto)",
+                "download_button": "Preuzmite Fotografije i Logo (Mesto)"
+            }
+        };
+
+        function switchLanguage(lang) {
+            // Update all elements with data-translate-key
+            document.querySelectorAll('[data-translate-key]').forEach(element => {
+                const key = element.getAttribute('data-translate-key');
+                if (translations[lang] && translations[lang][key] !== undefined) {
+                    // Special handling for the document title
+                    if (key === 'document_title') {
+                        document.title = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            // Update active state of language buttons
+            document.querySelectorAll('.lang-switcher button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById('lang-' + lang).classList.add('active');
+        }
+
+        // Set default language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('en'); // Default to English
+        });
+    </script>
+</body>
+</html>
